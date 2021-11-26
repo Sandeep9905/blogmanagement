@@ -4,8 +4,8 @@ mongoose.set('debug',true);
 mongoose.Promise = Promise;
 
 
-let url = 'mongodb+srv://blogwala:sandeep123@cluster0.t7iak.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-mongoose.connect(url, {useNewUrlParser: true ,useUnifiedTopology: true});
+
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true ,useUnifiedTopology: true});
 
 
 module.exports.Blog = require('./blog');
