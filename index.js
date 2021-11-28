@@ -6,11 +6,12 @@ const errorHandler = require('./handlers/error');
 const blogRoutes = require('./routes/blog'); 
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
+const db = require('./models');
 const {loginRequired , ensureCorrectUser} = require('./middleware/auth');
 const {ensureAdmin} = require('./middleware/admin');
-
-const PORT = process.env.PORT || 5000;
 app.use(cors());
+const PORT = process.env.PORT || 5000;
+
 
 // to  get req.body data in API
 app.use(
@@ -21,10 +22,27 @@ app.use(
 app.use(express.json());
 
 //all routes
+//public routes
+app.get('/api/blogs/:blog_id' ,async function(req ,res ,next){
+  try{
+    const blog = await db.Blog.findById(req.params.blog_id);
+    if(blog){
+       return res.status(200).json(blog)
+    }else{
+        return res.status(200).json({
+            message:'Blog Not Found!'
+        })
+    }
+ }catch(err){
+     return next(err);
+ }
+})
+
 
 app.use('/api/auth',authRoutes);
 
-app.use('/api/blog/:user_id',
+//secure routes
+app.use('/api/blog/:user_id/',
         loginRequired,
         ensureCorrectUser,
         blogRoutes);
@@ -32,7 +50,6 @@ app.use('/api/blog/:user_id',
 app.use('/api/admin',
         ensureAdmin,
         adminRoutes);
-
 
 
 //handling error 

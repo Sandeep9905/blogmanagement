@@ -22,7 +22,8 @@ exports.signin = async function(req ,res ,next){
                id,
                avatar,
                token,
-               username
+               username,
+               role
            })
         }else{
            return next({

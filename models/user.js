@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     status:{
        type:Number,
-       required:true
+       default:1
     },
     blogs:[{
         type:mongoose.Schema.Types.ObjectId,
