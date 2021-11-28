@@ -23,7 +23,7 @@ app.use(express.json());
 
 //all routes
 //public routes
-app.get('/api/blogs/:blog_id' ,async function(req ,res ,next){
+app.get('/api/:blog_id' ,async function(req ,res ,next){
   try{
     const blog = await db.Blog.findById(req.params.blog_id);
     if(blog){
